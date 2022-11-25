@@ -36,6 +36,7 @@ const App = () => {
          setMaxval(copy[selected])
          setMax(selected)
         }
+        
           setVote(copy)
         }}
           text={'vote'}
