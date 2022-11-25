@@ -1,0 +1,22 @@
+h1{
+  color: green;
+}
+
+.added{
+  color: green;
+  background-color: lightgray;
+  padding: 10;
+  font-size: 20px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  border-style: solid;
+}
+.error{
+  color: red;
+  background-color: lightgray;
+  padding: 10;
+  font-size: 20px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  border-style: solid;
+}
