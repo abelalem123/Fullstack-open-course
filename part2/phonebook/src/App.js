@@ -1,13 +1,13 @@
 import { useState ,useEffect} from 'react'
 import axios from 'axios'
-import noteService from './services/persons'
+import personService from './services/persons'
 
 const Notification = ({ notf,error }) => {
-  if (notf||error === null) {
+  if (notf&&error === null) {
     return null
   }
 else if(notf!==null){
-
+console.log("heyyyy");
   return (
     <div className='added'>
       {notf}
@@ -55,7 +55,7 @@ return(
               if(window.confirm(`${newName} is already added to phonebook, replace the old number with new one?`)){
                 const firstperson=duplicates[0];
                 const person={...firstperson,number:newNumber}
-           noteService.update(firstperson.id, person).then((response)=>{
+           personService.update(firstperson.id, person).then((response)=>{
             console.log(response);
               setPersons(persons.map((n)=>n.id!==firstperson.id?n:response));
               setSearchedArray(persons.map((n)=>n.id!==firstperson.id?n:response))
@@ -68,15 +68,21 @@ return(
             }
            else{
             const person={name:newName,number:newNumber}
-           noteService.create(person).then((response)=>{
+           personService.create(person).then((response)=>{
             setNotificationMessage(
               `Added ${response.name}`
             )
             setTimeout(() => {
               setNotificationMessage(null)
             }, 5000)
-              setPersons(persons.concat(response));
-              setSearchedArray(persons.concat(response))
+              // setPersons(persons.concat(response));
+              // setSearchedArray(persons.concat(response))
+            }).catch(error=>{
+             
+              setError(error.response.data.error)
+              setTimeout(() => {
+                setError(null)
+              }, 5000)
             })
           
            }
@@ -92,7 +98,7 @@ const Persons=({searchePersons,set})=>{
   const general=(id)=>{
     const validate=()=>{
       if(window.confirm('are you sure?')){
-       return noteService.remove(id).then(()=>{
+       return personService.remove(id).then(()=>{
      set(searchePersons.filter((p)=>p.id!==id))
        })
       }
@@ -120,7 +126,7 @@ const App = () => {
   
 useEffect(()=>{
   console.log('effects');
-  noteService.getAll().then((response)=>{
+  personService.getAll().then((response)=>{
     console.log('promise fulfilled');
     setPersons(response)
     setSearchedArray(response)
